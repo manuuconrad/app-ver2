@@ -50,7 +50,7 @@ def _assinatura_pasta():
 
 
 @st.cache_resource(show_spinner=False)
-def carregar_conteudos(_assinatura):
+def carregar_conteudos(assinatura):
     conteudos, erros = {}, []
     if not os.path.exists(PASTA_CONTEUDOS):
         return conteudos, erros
