@@ -747,6 +747,12 @@ for msg in ERROS:
 
 if not CONTEUDOS:
     st.error("Nenhuma doença foi encontrada dentro da pasta 'conteudos'. Verifique se criou a pasta 'conteudos' e colocou os arquivos .py lá dentro.")
+    if os.path.exists(PASTA_CONTEUDOS):
+        achados = sorted(os.listdir(PASTA_CONTEUDOS))
+        st.info("Arquivos encontrados em 'conteudos': " + (", ".join(f"`{a}`" for a in achados) or "(pasta vazia)")
+                + "\n\nO nome precisa terminar em `.py`, não pode começar com `__` e o arquivo precisa ter a variável `DADOS`.")
+    else:
+        st.info(f"A pasta 'conteudos' não existe ao lado do app.py (procurei em `{PASTA_CONTEUDOS}`).")
     st.stop()
 
 # ---- 1. Diagnóstico ---------------------------------------------------------
