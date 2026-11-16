@@ -828,18 +828,19 @@ prescricao = st.text_area(
 st.caption("O aplicativo **não calcula doses** nem sugere medicamentos: tudo o que aparece aqui é digitado e de responsabilidade do profissional.")
 
 # ---- 5. Equipe e contatos ---------------------------------------------------
-st.subheader("5. Equipe, contatos e local de atendimento")
+st.subheader("5. Equipe, contatos e local de atendimento (opcional)")
+st.caption("Tudo nesta seção é opcional. Se ficar em branco, o bloco \"Fale com a equipe\" não aparece no material.")
 cp1, cp2 = st.columns(2)
-profissional = cp1.text_input("Profissional de referência:", key="profissional", placeholder="ex.: Dra. Maria Silva")
-registro = cp2.text_input("Registro (CRM/COREN...):", key="registro", placeholder="ex.: CRM-PR 00000")
+profissional = cp1.text_input("Profissional de referência (opcional):", key="profissional", placeholder="ex.: Dra. Maria Silva")
+registro = cp2.text_input("Registro (CRM/COREN..., opcional):", key="registro", placeholder="ex.: CRM-PR 00000")
 especialidade = st.text_input("Especialidade / cargo (opcional):", key="especialidade", placeholder="ex.: Oncologia Pediátrica")
-local = st.text_input("Local de atendimento de referência:", key="local", placeholder="ex.: Ambulatório de Oncologia, 2º andar")
+local = st.text_input("Local de atendimento de referência (opcional):", key="local", placeholder="ex.: Ambulatório de Oncologia, 2º andar")
 ct1, ct2 = st.columns(2)
-telefone = ct1.text_input("Telefone da equipe:", key="telefone")
+telefone = ct1.text_input("Telefone da equipe (opcional):", key="telefone")
 email = ct2.text_input("E-mail / WhatsApp (opcional):", key="email")
 cs1, cs2 = st.columns(2)
 secretaria_nome = cs1.text_input("Secretaria (nome, opcional):", key="secretaria_nome")
-secretaria_tel = cs2.text_input("Secretaria (telefone):", key="secretaria_tel")
+secretaria_tel = cs2.text_input("Secretaria (telefone, opcional):", key="secretaria_tel")
 horario = st.text_input("Horário de atendimento dos contatos (opcional):", key="horario", placeholder="ex.: seg. a sex., 8h às 17h")
 
 # ---- 6. Conferência e geração -----------------------------------------------
@@ -862,17 +863,13 @@ if not sel_secoes:
     bloqueios.append("Selecione ao menos uma seção.")
 if not sel_alertas:
     bloqueios.append("Mantenha ao menos um sinal de alerta.")
-if not profissional.strip():
-    bloqueios.append("Informe o profissional de referência.")
-if not any(x.strip() for x in (telefone, secretaria_tel, email)):
-    bloqueios.append("Informe ao menos um contato (telefone, secretaria ou e-mail/WhatsApp).")
 
 st.markdown(
     f"**Resumo:** {nome_paciente or '—'} · {rotulo_diagnostico(dados)} · "
     f"{len(sel_secoes)} seção(ões) · {len(sel_alertas)} sinal(is) de alerta · "
     f"{'com' if preocupacoes.strip() else 'sem'} cuidados específicos · "
     f"{'com' if prescricao.strip() else 'sem'} orientação de prescrição · "
-    f"profissional: {profissional or '—'}"
+    f"profissional: {profissional or 'não informado'}"
 )
 
 confirmou = st.checkbox(
